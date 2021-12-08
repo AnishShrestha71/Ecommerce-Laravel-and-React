@@ -1,0 +1,32 @@
+<?php
+// example code
+
+
+
+$eventUrl = 'https://ingrails.com/school/json/event_list/130';
+$eventJson = file_get_contents($eventUrl);
+$eventQuery = json_decode($eventJson);
+
+
+
+$newArr = array();
+$h = array();
+foreach($eventQuery as $key => $value) {
+//   print_r($value->date);
+//   $newArr = [
+//       'added_at' => $value->date
+//       ];
+
+$new = array_push($h,  (object)[
+        'added_at' => $value->date,
+        'na' => $value->name
+        
+]);
+}
+
+
+
+usort($h, function ($a, $b) {
+    return strtotime($b->added_at) - strtotime($a->added_at);
+});
+print_r($h);
